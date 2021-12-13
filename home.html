@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .login {
+            overflow: hidden;
+            background-color: #f0e9e9;
+        }
+
+        .login a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .login a:hover {
+            background-color: rgb(221, 221, 221);
+            color: black;
+        }
+
+        .login .search-container {
+            float: right;
+        }
+
+        .login input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .login .search-container button {
+            float: right;
+            padding: 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: rgb(238, 243, 237);
+            font-size: 17px;
+        }
+
+        .login .search-container button:hover {
+            background: rgb(243, 240, 240);
+        }
+
+        @media screen and (max-width: 600px) {
+            .login .search-container {
+                float: none;
+            }
+
+            .login a,
+            .login input[type=text],
+            .login .search-container button {
+                float: none;
+                display: block;
+                text-align: left;
+                width: 100%;
+                margin: 0;
+                padding: 18px;
+            }
+
+            .login input[type=text] {
+                border: 1px solid rgb(240, 225, 225);
+            }
+        }
+
+        .login .singup button {
+            float: left;
+            padding: 10px;
+            margin-top: 20px;
+            margin-right: 66px;
+            background: rgb(238, 243, 237);
+            font-size: 17px;
+        }
+    </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<body>
+
+    <div class="login">
+        <div class="search-container">
+            <input class="email" type="text" placeholder="Email" name="email">
+            <input class="password" type="text" placeholder="Password" name="password">
+            <button id="login">Login</button>
+        </div>
+    </div>
+
+    <div class="login">
+        <div class = 'singup'>
+            <button id="register">Register</button>
+        </div>
+    </div>
+
+    <div class="output">
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#login").click(function () {
+                var userinput = { "email": $('.email').val(), "password": $('.password').val() };
+                userinput = JSON.stringify(userinput);
+                console.log(userinput);
+                $.ajax({
+                    url: 'http://localhost:3000/login',
+                    data: userinput,
+                    type: 'POST',
+                    contentType: "application/json",
+                    success: function (err, req, data) {
+                        if (data.status == 200) {
+                            $('.output').html(data.responseText);
+                            $(".login").hide();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Wrong Credentials, Try Again!!");
+                    },
+                });
+            });
+            $("#register").click(function () {
+                window.location.href="register";
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5eaf4;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f9fde5e8;
+}
+
+.register .search-container button {
+            float: left;
+            padding: 10px;
+            margin-top: 20px;
+            margin-right: 26px;
+            background: rgb(238, 243, 237);
+            font-size: 17px;
+}
+
+
+
+</style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+
+  <div class="register">
+    <div class="search-container">
+        <input class="email" type="text" placeholder="Email" name="email">
+        <input class="password" type="text" placeholder="Password" name="password">
+        <button id="registerbtn">register</button>
+    </div>
+</div>
+<div class="output">
+</div>
+  
+<!-- </form> -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#registerbtn").click(function () {
+            var userinput = { "email": $('.email').val(), "password": $('.password').val() };
+            userinput = JSON.stringify(userinput);
+            if ($('.password').val().length >= 8){
+                $.ajax({
+                url: 'http://localhost:3000/register',
+                data: userinput,
+                type: 'POST',
+                contentType: "application/json",
+                success: function (err, req, data) {
+                    if (data.status == 200) {
+                        window.location.href="/";
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error: ' + error.message);
+                    alert("Email already exists, try again");
+                },
+            });
+
+            }
+            else{
+                alert("password needs to be 8 characters long");
+            }
+            
+        });
+    });
+</script>
+
+</body>
+</html>
